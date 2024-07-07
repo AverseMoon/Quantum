@@ -1,4 +1,4 @@
-# Quantum - Very modular Java ~~library~~ "runtime"!
+# Quantum - Very modular Java ~~library~~ "runtime"
 
 Quantum is a simple library designed to load jars (or what is internally called Modules).
 
