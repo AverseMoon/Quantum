@@ -3,6 +3,8 @@ package net.quantum.core;
 import net.quantum.Quantum;
 import net.simpleeventbus.EventBus;
 import net.simpleeventbus.event.Event;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -39,6 +41,11 @@ public abstract class QuantumModule {
      * A list of global module names which this module depends on, if one is not found it will crash, set this in the manifest attribute {@code Module-Dependencies} as a JSON array.
      */
     public List<String> dependencies;
+
+    /**
+     * A log4j logger for this module.
+     */
+    public Logger LOGGER = LogManager.getLogger();
 
     /**
      * Initialization <br/>
