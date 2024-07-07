@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+}
+
+group = 'net.quantum'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.11.0'
+    implementation 'com.github.AverseMoon:SimpleEventBus:v1.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register('jarExampleModule', Jar) {
+    archiveBaseName.set("ExampleModule")
+    archiveVersion.set("1.0")
+    from sourceSets.exampleModule.output
+    manifest {
+        attributes 'Main-Class': "net.module.util.ExampleModule"
+        attributes 'Module-Global-Name': "${archiveBaseName.get()}-v${archiveVersion.get()}" // The global name of the module, used by dependencies
+        attributes 'Module-Dependencies': "[]" // JSON array of dependency global names
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': "net.quantum.Quantum"
+    }
+}
