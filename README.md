@@ -24,7 +24,7 @@ For example code go see [/ExampleModule/](https://github.com/AverseMoon/Quantum/
 ### Step 2: Move your modules into the `modules` folder
 ![Moving ExampleModule-1.0.jar into the modules folder](https://github.com/AverseMoon/Quantum/blob/e074202fcd134bb7e0c517dd28df7f4eb3000165/media/tutorial2.png)
 
-Setup is complete now!
+Your setup is complete!
 
 ### To run your modules:
 Just run the Quantum jar again!
