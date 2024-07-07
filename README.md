@@ -8,8 +8,8 @@ For example code go see [/ExampleModule/](https://github.com/AverseMoon/Quantum/
 
 ## Usage Tutorial:
 ### You will need:
-- A Quantum jar release, I will be using Quantum-1.0-BETA.jar
-- One or more modules, I will be using ExampleModule-1.0.jar
+- A Quantum jar release, I will be using [Quantum-1.0-BETA.jar](https://github.com/AverseMoon/Quantum/releases/tag/v1.0-beta)
+- One or more modules, I will be using [ExampleModule-1.0.jar](https://github.com/AverseMoon/Quantum/releases/tag/examplemodule-v1.0) (PS. Make sure the module is compatible with your Quantum version)
 - Java 17 or greater (older versions may work, I haven't tested them though)
 - A computer/laptop (not a phone or tablet), I will be using Windows 11 but the steps should be similar for Linux and Mac.
 
