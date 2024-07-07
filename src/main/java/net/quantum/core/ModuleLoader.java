@@ -5,6 +5,8 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import net.quantum.Quantum;
 import net.quantum.core.events.QuantumLoadingFinishedEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -20,6 +22,8 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 public class ModuleLoader {
+    public static final Logger LOGGER = LogManager.getLogger();
+
     public static final String GLOBAL_NAME_ATTRIBUTE = "Module-Global-Name";
     public static final String DEPENDENCY_ATTRIBUTE = "Module-Dependencies";
 
@@ -63,28 +67,35 @@ public class ModuleLoader {
         List<QuantumModule> modules = new ArrayList<>();
 
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, "*.jar")) {
-            System.out.println("Module loading started!");
+            LOGGER.info("Loading modules...");
 
             for (Path fpath : stream) {
-                System.out.printf("Found jar: %s%n", fpath.getFileName().toString());
+                LOGGER.info("Found jar: %s".formatted(fpath.getFileName().toString()));
                 QuantumModule module = loadModule(fpath);
                 if (module != null) {
-                    System.out.printf("Loaded module: %s (global name: %s)%n", module.name, module.globalName);
+                    LOGGER.info("Jar is valid.");
+                    LOGGER.info("Loaded module: %s (global name: %s)".formatted(module.name, module.globalName));
                     modules.add(module);
                 }
                 else {
-                    System.out.println("Jar is invalid, skipping");
+                    LOGGER.info("Jar is invalid, skipping");
                 }
             }
+
+            LOGGER.info("Module loading complete!");
         } catch (IOException e) {
-            System.out.println("Unable to read modules directory.");
+            LOGGER.error("Unable to read modules directory.");
             e.printStackTrace();
         }
-        
+
+        LOGGER.info("Registering loaded modules...");
+
         for (QuantumModule module : modules) {
             module.register();
             handler.addModule(module);
         }
+
+        LOGGER.info("All modules registered!");
 
         Quantum.BUS.post(new QuantumLoadingFinishedEvent());
     }
