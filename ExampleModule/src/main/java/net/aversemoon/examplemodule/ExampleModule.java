@@ -13,6 +13,6 @@ public class ExampleModule extends QuantumModule {
 
     @Subscribe
     public void exampleEventReciever(QuantumModuleLoadedEvent evt) {
-        System.out.printf("Recieved QuantumModuleLoadedEvent, name: %s%n", evt.name);
+        LOGGER.info("Recieved QuantumModuleLoadedEvent, name: %s".formatted(evt.name));
     }
 }
