@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.AverseMoon:Quantum:v1.0-beta'
+    implementation 'com.github.AverseMoon:Quantum:v1.0'
     implementation 'com.google.code.gson:gson:2.11.0'
     implementation 'com.github.AverseMoon:SimpleEventBus:v1.0'
 }
