@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+group = 'net.aversemoon.examplemodule'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.github.AverseMoon:Quantum:v1.0-beta'
+    implementation 'com.google.code.gson:gson:2.11.0'
+    implementation 'com.github.AverseMoon:SimpleEventBus:v1.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': "net.aversemoon.examplemodule.ExampleModule"
+        attributes 'Module-Global-Name': "${rootProject.name}-v${version}" // The global name of the module, used by dependencies
+        attributes 'Module-Dependencies': "[]" // JSON array of dependency global names
+    }
+}
