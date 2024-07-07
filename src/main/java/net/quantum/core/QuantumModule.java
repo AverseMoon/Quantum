@@ -45,7 +45,7 @@ public abstract class QuantumModule {
     /**
      * A log4j logger for this module.
      */
-    public Logger LOGGER = LogManager.getLogger();
+    public Logger LOGGER;
 
     /**
      * Initialization <br/>
@@ -53,6 +53,7 @@ public abstract class QuantumModule {
      */
     public QuantumModule() {
         name = UUID.randomUUID().toString();
+        LOGGER = LogManager.getLogger(this.getClass());
     }
 
     /**

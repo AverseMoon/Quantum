@@ -22,7 +22,7 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 public class ModuleLoader {
-    public static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger(ModuleLoader.class);
 
     public static final String GLOBAL_NAME_ATTRIBUTE = "Module-Global-Name";
     public static final String DEPENDENCY_ATTRIBUTE = "Module-Dependencies";
