@@ -19,17 +19,6 @@ test {
     useJUnitPlatform()
 }
 
-tasks.register('jarExampleModule', Jar) {
-    archiveBaseName.set("ExampleModule")
-    archiveVersion.set("1.0")
-    from sourceSets.exampleModule.output
-    manifest {
-        attributes 'Main-Class': "net.module.util.ExampleModule"
-        attributes 'Module-Global-Name': "${archiveBaseName.get()}-v${archiveVersion.get()}" // The global name of the module, used by dependencies
-        attributes 'Module-Dependencies': "[]" // JSON array of dependency global names
-    }
-}
-
 jar {
     manifest {
         attributes 'Main-Class': "net.quantum.Quantum"
