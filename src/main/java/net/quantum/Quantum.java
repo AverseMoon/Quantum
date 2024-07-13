@@ -43,6 +43,11 @@ public class Quantum {
         if (!Files.isDirectory(MODULES_PATH)) throw new RuntimeException("'%s' must be a directory".formatted(MODULES_PATH.toString()));
         LOGGER.info("DONE");
 
+        LOGGER.info("Checking the folder '%s' exists...".formatted(CONFIG_PATH.toString()));
+        if (!Files.exists(CONFIG_PATH)) Files.createDirectory(CONFIG_PATH);
+        if (!Files.isDirectory(CONFIG_PATH)) throw new RuntimeException("'%s' must be a directory".formatted(CONFIG_PATH.toString()));
+        LOGGER.info("DONE");
+
         LOGGER.info("Registering events...");
         BUS.registerEventType(QuantumModuleLoadedEvent.class);
         BUS.registerEventType(QuantumLoadingFinishedEvent.class);
