@@ -63,8 +63,11 @@ public class ModuleLoader {
         }
         return null;
     }
-    public static void registerAllModulesInDirectory(Path path, ModuleHandler handler) throws ReflectiveOperationException, IOException {
+    public static void registerAllModulesInDirectory(Path path, ModuleHandler handler, boolean crashOnMissingDependencies, boolean crashOnDuplicates) throws ReflectiveOperationException, IOException {
         List<QuantumModule> modules = new ArrayList<>();
+        List<String> globalNames = new ArrayList<>();
+
+        globalNames.add(Quantum.VERSION);
 
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, "*.jar")) {
             LOGGER.info("Loading modules...");
@@ -73,8 +76,16 @@ public class ModuleLoader {
                 LOGGER.info("Found jar: %s".formatted(fpath.getFileName().toString()));
                 QuantumModule module = loadModule(fpath);
                 if (module != null) {
+                    if (globalNames.contains(module.globalName)) if (crashOnDuplicates) {
+                        throw new IllegalStateException("Duplicate dependency found: '%s' (global name: '%s')".formatted(module.name, module.globalName));
+                    } else {
+                        LOGGER.warn("Duplicate dependency found: '%s' (global name: '%s')".formatted(module.name, module.globalName));
+                    }
+
+                    globalNames.add(module.globalName);
+
                     LOGGER.info("Jar is valid.");
-                    LOGGER.info("Loaded module: %s (global name: %s)".formatted(module.name, module.globalName));
+                    LOGGER.info("Loaded module: '%s' (global name: '%s')".formatted(module.name, module.globalName));
                     modules.add(module);
                 }
                 else {
@@ -82,7 +93,7 @@ public class ModuleLoader {
                 }
             }
 
-            LOGGER.info("Module loading complete!");
+            LOGGER.info("Module loading complete.");
         } catch (IOException e) {
             LOGGER.error("Unable to read modules directory.");
             e.printStackTrace();
@@ -95,7 +106,21 @@ public class ModuleLoader {
             handler.addModule(module);
         }
 
-        LOGGER.info("All modules registered!");
+        LOGGER.info("All modules registered.");
+
+        LOGGER.info("Checking dependencies...");
+
+        for (QuantumModule module : modules) {
+            for (String dependency : module.dependencies) {
+                if (!globalNames.contains(dependency)) if (crashOnMissingDependencies) {
+                    throw new IllegalStateException("Module '%s' is missing a dependency: '%s'".formatted(module.globalName, dependency));
+                } else {
+                    LOGGER.warn("Module '%s' is missing a dependency: '%s'".formatted(module.globalName, dependency));
+                }
+            }
+        }
+
+        LOGGER.info("Completed dependency check.");
 
         Quantum.BUS.post(new QuantumLoadingFinishedEvent());
     }
